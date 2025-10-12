@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://js.zohostatic.com/creator/widgets/version/1.0/widgetsdk-min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <div class="Booking_container">
+    <div class="BookingInner" id="BookingSection">
+      <!-- Popup Form Start-->
+      <div id="bookingFormModal" class="modal">
+        <div class="modal-content" id="zohoForm">
+          <span class="material-symbols-outlined close" data-target="bookingFormModal">close</span>
+        </div>
+      </div>
+      <!-- Popup Form End -->
+      <div class="BookingHeader" style="height: 7vh;">
+        <h2>Bookings</h2>
+        <div class="Booing_HeaderMenu">
+          <div class="Booking_Search">
+            <span class="material-symbols-outlined">search</span>
+            <input type="text" placeholder="Search by Booking ID" id="searchInput" />
+          </div>
+          <button id="dateFilterBtn"><span class="material-symbols-outlined">calendar_month</span><span>Date
+              filter</span></button>
+          <input type="date" id="startDate" style="display:none;">
+          <input type="date" id="endDate" style="display:none;">
+          <button onclick="resetFilters()"><span
+              class="material-symbols-outlined">cached</span><span>Refresh</span></button>
+          <button id="openFormBtn"><span class="material-symbols-outlined">add_circle</span><span>Add
+              Bookings</span></button>
+        </div>
+      </div>
+      <div class="Booking_Outer_view">
+        <div class="DashboardLeftSidebar" style="width: 20%;">
+          <div class="LeftInnerHeader">
+            <li><span style="font-size: 15px;" class="material-symbols-outlined">hail</span><span
+                style="font-size: 12px;">Customer
+                Bookings</span></li>
+            <li><span style="font-size: 12px;">Status</span><span style="font-size: 15px;"
+                class="material-symbols-outlined">keyboard_arrow_down</span></li>
+          </div>
+          <div class="booking-card-outer" id="CustBookingList">
+            <!-- <div class="booking-card" style="border-radius: 4px;">
+              <h4>Atlantis Hotel</h4>
+              <ul class="bookingList-info">
+                <li>
+                  <span class="material-symbols-outlined">account_circle</span>Karthik
+                </li>
+                <li>
+                  <span style="font-size: 10px;">5</span><span style="font-size: 10px;">Bookings</span>
+                </li>
+                <li>
+                  <span style="font-size: 10px;">5</span><span style="font-size: 10px;">Service</span>
+                </li>
+              </ul>
+            </div> -->
+          </div>
+        </div>
+        <div class="Booking_Overview" style="width: 80%;padding-right: 0px;">
+
+          <div class="filters" style="height: auto; padding-top: 0px;">
+            <button class="active" onclick="filterBookingStatus('all', event)">All</button>
+            <button onclick="filterBookingStatus('pending', event)">Pending</button>
+            <button onclick="filterBookingStatus('in-progress', event)">In Progress</button>
+            <button onclick="filterBookingStatus('completed', event)">Completed</button>
+          </div>
+          <div class="booking_table_container" id="bookingTableContainer"></div>
+
+        </div>
+      </div>
+
+    </div>
+    <!-- this is Job Section -->
+    <div class="jobinner" id="JobSection">
+      <!-- Popup Form Start-->
+      <div id="bookingFormModal1" class="modal">
+        <div class="modal-content" id="zohoForm2">
+          <span class="material-symbols-outlined close" data-target="bookingFormModal1">close</span>
+        </div>
+      </div>
+      <!-- Popup End Start-->
+      <div class="page-header">
+        <div>
+          <h2 id="BookignName">BKG - 2001 | Atlantis Hotel</h2>
+          <span class="tag priority priority-low" id="Assigned-Priority">Assigned</span><span
+            class="tag status status-assigned" id="JobStatusValue">Housekeeping & Laundry</span>
+        </div>
+        <button onclick="backBooking()">Back Booking</button>
+      </div>
+      <div class="joblist-container">
+        <div class="BookingHeader">
+          <div class="filters jobFilter" style="height: 13vh;align-items: center;">
+            <button class="active" onclick="filterJobStatus('all', event)">All</button>
+            <button onclick="filterJobStatus('pending', event)">Pending</button>
+            <button onclick="filterJobStatus('in-progress', event)">In Progress</button>
+            <button onclick="filterJobStatus('completed', event)">Completed</button>
+          </div>
+          <div class="Booing_HeaderMenu">
+            <div class="Booking_Search">
+              <span class="material-symbols-outlined">search</span>
+              <input type="text" placeholder="Search Jobs" id="searchJobInput" style="font-size: 12px;" />
+            </div>
+            <button id="openJobFormBtn">
+              <span class="material-symbols-outlined">add_circle</span>
+              <span>Add Jobs</span>
+            </button>
+          </div>
+        </div>
+        <div class="job_table_container">
+          <table id="jobTable">
+            <thead>
+              <tr>
+                <th>Select</th>
+                <th>Job ID</th>
+                <th>Scheduled Date</th>
+                <th>Customer</th>
+                <th>Service Type</th>
+                <th>Material Request</th>
+                <th>Location</th>
+                <th>Scheduled Time</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <div class="JobOverviewInner">
+      <div id="formModal_DJob" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeDJobForm">&times;</span>
+          <iframe frameborder='0' allowTransparency='true' scrolling='auto'
+            src='https://creatorapp.zohopublic.com/fabmastermiddleeast/fab-master-erp1/form-embed/Job/z8depjKtHb8pSEXaOVTK1TwA3ppGpPHxUsFB994nDFNU5d7h1XZ7FhJswsn6F7kSWKDekPdsBBg4H8Xm6bXeRbPN5WhAOMdNw1AW'></iframe>
+        </div>
+      </div>
+      <div class="date-tabs flex justify-end pr-5 " id="dateTabContainer">
+        <span class="py-1 px-4 bg-green-500 radius-5 m-5 rounded-md text-white cursor-pointer" onclick="backToBooking()" >Back to Booking</span>
+      </div>
+      <div class="jobDashboard">
+        <div class="DashboardLeftSidebar">
+          <div class="LeftInnerHeader">
+            <li><span class="material-symbols-outlined">hail</span><span style="font-size: 16px;">Customer
+                Bookings</span></li>
+            <li><span style="font-size: 16px;">Status</span><span
+                class="material-symbols-outlined">keyboard_arrow_down</span></li>
+          </div>
+          <div class="booking-card-outer" id="bookingCardContainer"></div>
+        </div>
+
+        <div class="DashboardRightSidebar">
+          <div class="DashboardRightSidebar-header-outer">
+            <div class="DashboardRightSidebar-header">
+              <h2><span id="ShowJobID">Booking–2001</span> | <span id="ShowCustName">Atlantis Hotel</span></h2>
+              <div class="Issue-buttons">
+                <button class="action-btn">Log Issue</button>
+                <button class="action-btn">Cancel</button>
+              </div>
+            </div>
+
+            <div class="badges">
+              <span class="priority priority-low">Low</span>
+              <span class="status status-inprogress">Assigned</span>
+              <span class="priority priority-routine">B2B</span>
+            </div>
+
+          </div>
+          <div class="customer-Section">
+            <div class="customer-info-Section">
+              <h3>Customer Information</h3>
+              <div class="info-grid">
+                <div class="info-field">
+                  <label for="">Customer Name</label>
+                  <input type="text" value="Atlantis Hotel" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Contact Person</label>
+                  <input type="text" value="John Mathews" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Contact Number</label>
+                  <input type="text" placeholder="+971 55 123 456" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Email</label>
+                  <input type="text" value="ops@atlantishotel.com" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Locations</label>
+                  <input type="text" value="Palm Jumeirah, Dubai" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Created at</label>
+                  <input type="text" value="01-Sep-2025, 09:15 AM" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Total Job Request</label>
+                  <input type="text" value="3" disabled />
+                </div>
+                <div class="info-field">
+                  <label for="">Total Material Request</label>
+                  <input type="text" value="350 items" disabled />
+                </div>
+              </div>
+            </div>
+
+
+            <div class="JobOverview">
+              <div class="Sceduled_header">
+                <div class="BookingHeader">
+                  <h2>Scheduled Jobs</h2>
+                  <div class="Booing_HeaderMenu">
+                    <div class="Booking_Search">
+                      <span class="material-symbols-outlined">search</span>
+                      <input type="text" placeholder="Search Jobs" id="JobInput" style="font-size: 12px;" />
+                    </div>
+                    <button id="open_DJobFormBtn"><span class="material-symbols-outlined">add_circle</span><span>Add
+                        Job</span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="booking_table_container" style="height: auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Select</th>
+                      <th>Job Id</th>
+                      <th>Scheduled Dates</th>
+                      <th>Service Type</th>
+                      <th>Linen/Material</th>
+                      <th>Scheduled Start Time</th>
+                      <th>Scheduled End Time</th>
+                      <th>Assigned Crew</th>
+                      <th>Driver</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>JOB-101</td>
+                      <td>01-09-2025</td>
+                      <td>House Keeping</td>
+                      <td>50 Bed Covers</td>
+                      <td>10:00 AM</td>
+                      <td>11:00 AM</td>
+                      <td>Crew A</td>
+                      <td>Driver-02</td>
+                      <td><span class="status-tag status-assigned">Assigned</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>JOB-102</td>
+                      <td>01-09-2025</td>
+                      <td>Linen Supply</td>
+                      <td>200 Pillow Covers</td>
+                      <td>12:00 PM</td>
+                      <td>01:00 PM</td>
+                      <td>Crew A</td>
+                      <td>Driver-02</td>
+                      <td><span class="status-tag status-dispatched">Dispatched</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Job Issues Tab -->
+            <div class="JobOverview">
+              <div class="Sceduled_header">
+                <div class="BookingHeader">
+                  <h2>Job Issues Tab</h2>
+                  <div class="Booing_HeaderMenu">
+                    <div class="Booking_Search">
+                      <span class="material-symbols-outlined">search</span>
+                      <input type="text" placeholder="Search issue" id="IssueInput" style="font-size: 12px;" />
+                    </div>
+                    <button><span>Log Issue</span></button>
+                  </div>
+                </div>
+              </div>
+              <div class="booking_table_container" style="height: auto;">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Select</th>
+                      <th>Job Id</th>
+                      <th>Reported By</th>
+                      <th>Description</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>ISS-230</td>
+                      <td>Supervisor A</td>
+                      <td>Linen stock shortage (50 pillow covers)</td>
+                      <td><span class="status-tag status-pending">Pending</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>ISS-230</td>
+                      <td>Supervisor A</td>
+                      <td>Linen stock shortage (50 pillow covers)</td>
+                      <td><span class="status-tag status-pending">Pending</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>ISS-230</td>
+                      <td>Supervisor A</td>
+                      <td>Linen stock shortage (50 pillow covers)</td>
+                      <td><span class="status-tag status-pending">Pending</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>ISS-230</td>
+                      <td>Supervisor A</td>
+                      <td>Linen stock shortage (50 pillow covers)</td>
+                      <td><span class="status-tag status-pending">Pending</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                    <tr>
+                      <td><input type="checkbox"></td>
+                      <td>ISS-230</td>
+                      <td>Supervisor A</td>
+                      <td>Linen stock shortage (50 pillow covers)</td>
+                      <td><span class="status-tag status-pending">Pending</span></td>
+                      <td><button class="action-btn">Update</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="js/newScript.js"></script>
+  <script src="js/test.js"></script>
+</body>
+
+</html>
