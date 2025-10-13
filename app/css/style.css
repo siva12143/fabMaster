@@ -7,6 +7,12 @@
 
     @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
 
+    #materilCount{
+      display: none;
+    }
+    textarea{
+      border: 1px;
+    }
     .BookingInner,
     .jobinner,
     .JobOverviewInner {
@@ -293,6 +299,17 @@
       background: #fff;
     }
 
+    .job-requests{
+      height: 150px;
+      overflow: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .job-requests .bookingJobs{
+      background-color: rgb(226, 226, 226);
+    }
+
     .page-header h2 {
       font-weight: 600;
       font-size: 20px;
@@ -398,7 +415,7 @@
       background: #fff;
       border-radius: 10px;
       padding: 15px;
-      width: 25%;
+      width: 30%;
       border: 1px solid #e0e0e0;
       height: 100%;
     }
@@ -545,7 +562,7 @@
     }
 
     .customer-Section {
-      height: 400px;
+      height: 600px;
       overflow-y: scroll;
       scrollbar-width: none;
     }

@@ -10,9 +10,11 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
+    <span id="materilCount"></span>
     <div class="Booking_container">
         <div class="BookingInner" id="BookingSection">
             <!-- Popup Form Start-->
@@ -175,7 +177,7 @@
                             <h2><span id="ShowJobID">Booking–2001</span> | <span id="ShowCustName">Atlantis Hotel</span>
                             </h2>
                             <div class="Issue-buttons">
-                                <button class="action-btn">Save</button>
+                                <button class="action-btn" onclick="updateValue()">Save</button>
                                 <button class="action-btn">Cancel</button>
                             </div>
                         </div>
@@ -192,83 +194,78 @@
                             <h3>Customer Information</h3>
                             <div class="info-grid">
                                 <div class="info-field">
-                                    <label for="">Customer Name</label>
-                                    <input type="text" value="Atlantis Hotel" disabled />
+                                    <label for="">Job Request ID</label>
+                                    <input type="text" id="Job_Request_ID" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Contact Person</label>
-                                    <input type="text" value="John Mathews" disabled />
+                                    <label for="">Customer</label>
+                                    <input type="text" id="Customer" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Contact Number</label>
-                                    <input type="text" placeholder="+971 55 123 456" disabled />
+                                    <label for="">Service</label>
+                                    <input type="text" id="Service" placeholder="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Email</label>
-                                    <input type="text" value="ops@atlantishotel.com" disabled />
+                                    <label for="">Property Name</label>
+                                    <input type="text" id="Property_Name" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Locations</label>
-                                    <input type="text" value="Palm Jumeirah, Dubai" disabled />
+                                    <label for="">Property Number</label>
+                                    <input type="text" id="Property_Number" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Created at</label>
-                                    <input type="text" value="01-Sep-2025, 09:15 AM" disabled />
+                                    <label for="">Property Type</label>
+                                    <input type="text" id="Property_Type" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Total Job Request</label>
-                                    <input type="text" value="3" disabled />
+                                    <label for="">Property Unit</label>
+                                    <input type="text" id="Property_Unit" value="" disabled />
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Total Material Request</label>
-                                    <input type="text" value="350 items" disabled />
+                                    <label for="">Address</label>
+                                    <input type="text" id="Address" value="" disabled />
+                                </div>
+                                <div class="info-field">
+                                    <label for="">Zone</label>
+                                    <input type="text" id="Zone" value="" disabled />
+                                </div>
+                                <div class="info-field">
+                                    <label for="">Access Code</label>
+                                    <input type="text" id="Access_Code" value="" disabled />
                                 </div>
                             </div>
                         </div>
+                        <hr>
                         <div class="customer-info-Section">
-                            <h3>Customer Information</h3>
-                            <div class="info-grid">
-                                <div class="info-field">
+                            <div class="flex flex-wrap">
+                                <div class="info-field w-1/3">
                                     <label for="">Scheduled Date</label>
-                                    <input type="date" value="" />
+                                    <input type="date" id="Scheduled_Date" value="" />
                                 </div>
-                                <div class="info-field">
+                                <div class="info-field w-1/3">
                                     <label for="">Start Time</label>
-                                    <input type="time" value="" />
+                                    <input type="time" id="Start_Time" value="" />
                                 </div>
-                                <div class="info-field">
+                                <div class="info-field w-1/3">
                                     <label for="">End Time</label>
-                                    <input type="time" placeholder="" />
+                                    <input type="time" id="End_Time" placeholder="" />
                                 </div>
-                                <div class="info-field">
-                                    <label for="">End Time</label>
+                                <div class="info-field ">
                                     <div class="materials " style="height: auto;">
-
-
                                         <div class="relative overflow-x-auto">
-                                            <div class="w-[600px] bg-white p-6 rounded-lg shadow-md">
+                                            <div class="w-[600px] bg-white pt-6 rounded-lg shadow-md">
+                                                <label for="" class="py-2 inline-block">Materials</label>
                                                 <table id="productTable"
                                                     class="w-full text-sm text-left text-gray-700 border border-gray-200 rounded-lg shadow-sm">
                                                     <thead
                                                         class="text-xs font-semibold text-gray-600 uppercase bg-gray-50">
                                                         <tr>
-                                                            <th scope="col" class="px-6 py-3">Product name</th>
-                                                            <th scope="col" class="px-6 py-3">Color</th>
+                                                            <th scope="col" class="px-6 py-3">Material</th>
+                                                            <th scope="col" class="px-6 py-3">Qty</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr class="bg-white border-b border-gray-200 hover:bg-gray-50">
-                                                            <td scope="row"
-                                                                >
-                                                                <select name="" id="" class="w-[95%] px-3 py-2 font-medium text-gray-900 whitespace-nowrap">
-                                                                    <option value="">Select</option>
-                                                                    <option value="Select 1">Select 1</option>
-                                                                    <option value="Select 2">Select 2</option>
-                                                                    <option value="Select 3">Select 3</option>
-                                                                </select>
-                                                            </td>
-                                                            <td><input class="px-3 py-2 font-medium text-gray-900 whitespace-nowrap" type="number" name="" id=""></td>
-                                                        </tr>
+                                                        
                                                     </tbody>
                                                 </table>
 
@@ -286,189 +283,41 @@
                             </div>
                         </div>
                         <div class="customer-info-Section">
-                            <h3>Customer Information</h3>
+                            <h3>Team Information</h3>
                             <div class="info-grid">
                                 <div class="info-field">
-                                    <label for="">Customer Name</label>
-                                    <input type="text" value="Atlantis Hotel" disabled />
+                                    <label for="">Crew</label>
+                                    <select class="block w-full bg-white border border-gray-300 text-gray-700 text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-3 py-2 shadow-sm transition duration-200 ease-in-out" name="" id="Crew"></select>
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Contact Person</label>
-                                    <input type="text" value="John Mathews" disabled />
+                                    <label for="">Driver</label>
+                                    <select class="block w-full bg-white border border-gray-300 text-gray-700 text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-3 py-2 shadow-sm transition duration-200 ease-in-out" name="" id="Driver"></select>
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Contact Number</label>
-                                    <input type="text" placeholder="+971 55 123 456" disabled />
+                                    <label for="">Pickup Location</label>
+                                    <select class="block w-full bg-white border border-gray-300 text-gray-700 text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-3 py-2 shadow-sm transition duration-200 ease-in-out" name="" id="Pickup_Location"></select>
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Email</label>
-                                    <input type="text" value="ops@atlantishotel.com" disabled />
+                                    <label for="">Drop-off Location</label>
+                                    <select class="block w-full bg-white border border-gray-300 text-gray-700 text-base rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 px-3 py-2 shadow-sm transition duration-200 ease-in-out" name="" id="Dropoff_Location"></select>
                                 </div>
                                 <div class="info-field">
-                                    <label for="">Locations</label>
-                                    <input type="text" value="Palm Jumeirah, Dubai" disabled />
+                                    <label for="">Special Instructions</label>
+                                    <textarea name="" id="Special_Instruction"></textarea>
                                 </div>
-                                <div class="info-field">
-                                    <label for="">Created at</label>
-                                    <input type="text" value="01-Sep-2025, 09:15 AM" disabled />
-                                </div>
-                                <div class="info-field">
-                                    <label for="">Total Job Request</label>
-                                    <input type="text" value="3" disabled />
-                                </div>
-                                <div class="info-field">
-                                    <label for="">Total Material Request</label>
-                                    <input type="text" value="350 items" disabled />
-                                </div>
+                                
                             </div>
                         </div>
 
 
-                        <div class="JobOverview">
-                            <div class="Sceduled_header">
-                                <div class="BookingHeader">
-                                    <h2>Scheduled Jobs</h2>
-                                    <div class="Booing_HeaderMenu">
-                                        <div class="Booking_Search">
-                                            <span class="material-symbols-outlined">search</span>
-                                            <input type="text" placeholder="Search Jobs" id="JobInput"
-                                                style="font-size: 12px;" />
-                                        </div>
-                                        <button id="open_DJobFormBtn"><span
-                                                class="material-symbols-outlined">add_circle</span><span>Add
-                                                Job</span></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="booking_table_container" style="height: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Select</th>
-                                            <th>Job Id</th>
-                                            <th>Scheduled Dates</th>
-                                            <th>Service Type</th>
-                                            <th>Linen/Material</th>
-                                            <th>Scheduled Start Time</th>
-                                            <th>Scheduled End Time</th>
-                                            <th>Assigned Crew</th>
-                                            <th>Driver</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>JOB-101</td>
-                                            <td>01-09-2025</td>
-                                            <td>House Keeping</td>
-                                            <td>50 Bed Covers</td>
-                                            <td>10:00 AM</td>
-                                            <td>11:00 AM</td>
-                                            <td>Crew A</td>
-                                            <td>Driver-02</td>
-                                            <td><span class="status-tag status-assigned">Assigned</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>JOB-102</td>
-                                            <td>01-09-2025</td>
-                                            <td>Linen Supply</td>
-                                            <td>200 Pillow Covers</td>
-                                            <td>12:00 PM</td>
-                                            <td>01:00 PM</td>
-                                            <td>Crew A</td>
-                                            <td>Driver-02</td>
-                                            <td><span class="status-tag status-dispatched">Dispatched</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-
-                        <!-- Job Issues Tab -->
-                        <!-- <div class="JobOverview">
-                            <div class="Sceduled_header">
-                                <div class="BookingHeader">
-                                    <h2>Job Issues Tab</h2>
-                                    <div class="Booing_HeaderMenu">
-                                        <div class="Booking_Search">
-                                            <span class="material-symbols-outlined">search</span>
-                                            <input type="text" placeholder="Search issue" id="IssueInput"
-                                                style="font-size: 12px;" />
-                                        </div>
-                                        <button><span>Log Issue</span></button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="booking_table_container" style="height: auto;">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>Select</th>
-                                            <th>Job Id</th>
-                                            <th>Reported By</th>
-                                            <th>Description</th>
-                                            <th>Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>ISS-230</td>
-                                            <td>Supervisor A</td>
-                                            <td>Linen stock shortage (50 pillow covers)</td>
-                                            <td><span class="status-tag status-pending">Pending</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>ISS-230</td>
-                                            <td>Supervisor A</td>
-                                            <td>Linen stock shortage (50 pillow covers)</td>
-                                            <td><span class="status-tag status-pending">Pending</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>ISS-230</td>
-                                            <td>Supervisor A</td>
-                                            <td>Linen stock shortage (50 pillow covers)</td>
-                                            <td><span class="status-tag status-pending">Pending</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>ISS-230</td>
-                                            <td>Supervisor A</td>
-                                            <td>Linen stock shortage (50 pillow covers)</td>
-                                            <td><span class="status-tag status-pending">Pending</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td><input type="checkbox"></td>
-                                            <td>ISS-230</td>
-                                            <td>Supervisor A</td>
-                                            <td>Linen stock shortage (50 pillow covers)</td>
-                                            <td><span class="status-tag status-pending">Pending</span></td>
-                                            <td><button class="action-btn">Update</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div> -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-<script src="js/action.js"></script>
-<script src="js/fetch.js"></script>
-<script src="js/maping.js"></script>
+    <script src="js/action.js"></script>
+    <script src="js/fetch.js"></script>
+    <script src="js/maping.js"></script>
 </body>
 
 </html>
