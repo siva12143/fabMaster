@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Requests</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen">
+
+  <div class="w-[380px] bg-white rounded-xl shadow-md">
+    <!-- Header -->
+    <div class="flex justify-between items-center bg-purple-100 p-3 rounded-t-xl">
+      <h2 class="text-purple-700 font-semibold text-lg">Job Requests</h2>
+      <button class="text-purple-700">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+        </svg>
+      </button>
+    </div>
+
+    <!-- Job List -->
+    <div class="divide-y">
+      <!-- Active Row -->
+      <div class="flex items-center justify-between bg-purple-600 text-white p-3 rounded-md m-2">
+        <div>
+          <p class="font-semibold text-sm">10:00 am - 11:00 am</p>
+          <p class="text-sm">Housekeeping</p>
+        </div>
+        <div class="text-sm text-right">
+          <p>Crew A</p>
+          <p>Driver A</p>
+        </div>
+        <div class="bg-green-500 text-white p-1.5 rounded-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Normal Row -->
+      <div class="flex items-center justify-between bg-white p-3 rounded-md m-2 shadow-sm">
+        <div>
+          <p class="font-semibold text-sm text-gray-800">12:00 am - 01:00 pm</p>
+          <p class="text-sm text-gray-600">Laundry</p>
+        </div>
+        <div class="text-sm text-right text-gray-600">
+          <p>Crew A</p>
+          <p>Driver A</p>
+        </div>
+        <div class="bg-green-100 text-green-600 p-1.5 rounded-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- Last Row -->
+      <div class="flex items-center justify-between bg-white p-3 rounded-md m-2 shadow-sm">
+        <div>
+          <p class="font-semibold text-sm text-gray-800">05:00 pm - 06:00 pm</p>
+          <p class="text-sm text-gray-600">House Keeping</p>
+        </div>
+        <div class="text-sm text-right text-gray-600">
+          <p>Crew A</p>
+          <p>--</p>
+        </div>
+        <div class="bg-indigo-100 text-indigo-600 p-1.5 rounded-md">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

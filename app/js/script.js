@@ -505,7 +505,7 @@ function renderBookingTable(items) {
           <td>${(it["Preffered_Start_Time"] ? it["Preffered_Start_Time"].split(" ")[1] : "")} - ${(it["Preffered_End_Time"] ? it["Preffered_End_Time"].split(" ")[1] : "")}</td>
           <td><span style="padding:4px 8px; background:#ffeeba; border-radius:4px; display:block; text-align:center;">${it["Parent_ID.Status"] || ""}</span></td>
           <td><button class="action-btn">Create</button></td>
-          <td><div class="Row-btn-item" onclick="runTable(event)">View</div></td>
+          <td><div class="Row-btn-item" onclick="hideShow(event)">View</div></td>
         </tr>`;
     //   }
     });

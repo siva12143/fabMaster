@@ -15,10 +15,9 @@
       padding: 20px;
       overflow: hidden;
     }
-    /* .jobinner,
-    .JobOverviewInner {
+    .jobinner {
       display: none;
-    } */
+    }
     .BookingHeader,
     .page-header {
       display: flex;
