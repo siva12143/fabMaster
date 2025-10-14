@@ -184,31 +184,55 @@ const approvalPopup = () => {
 
 
 // Booking card Click Action 
-document.getElementById("CustBookingList").addEventListener("click", async(e) => {
+document.getElementById("CustBookingList").addEventListener("click", async (e) => {
     console.log(e);
-    
-    const getCustomerId = e.target.closest(".booking-card").id;
+
+    const getCustomerId = e.target.closest(".booking-card");
     const cards = document.querySelectorAll('.booking-card');
-    cards.forEach(card => {
-        cards.forEach(e => e.classList.remove("active"));
-        card.classList.add("active");
-    })
+    cards.forEach(e => e.classList.remove("active"));
+    getCustomerId.classList.add("active");
+
+
     let filterBookingService = [];
+    let Booking = [];
     const config = {
         appName: "fab-master-erp1",
         reportName: "All_Bookings",
-        criteria: `(Customer_Name == ${getCustomerId})`,
+        criteria: `(Customer_Name == ${getCustomerId.id})`,
         page: 1,
         pageSize: 200,
     };
     await ZOHO.CREATOR.API.getAllRecords(config).then(async response => {
-        filterBookingService = await response.data;
-        console.log(response.data);
+        Booking = await response.data;
     })
-    // const sortedBookings = filterBookingService.sort((a, b) =>
-    //     a.Service_Type1.ID.localeCompare(b.Service_Type1.ID)
-    // );
-    // bookingTableDisplay(sortedBookings);
+    const BookingID = Booking.map(booking => booking.ID)
+    let Crit = ""
+    BookingID.forEach(async (e, i) => {
+        Crit += `Parent_ID == ${e}`;
+        if (i + 1 != BookingID.length) {
+            Crit += " || ";
+        }
+    })
+    console.log(Crit);
+
+    const config2 = {
+        appName: "fab-master-erp1",
+        reportName: "All_Booking_Line_Items",
+        criteria: Crit,
+        page: 1,
+        pageSize: 200,
+    };
+    await ZOHO.CREATOR.API.getAllRecords(config2).then(async response => {
+        filterBookingService.push(...response.data);
+        await response.data.forEach(async e1 => {
+        })
+    })
+    const sortedBookings = filterBookingService.sort((a, b) =>
+        a.Service_Type1.ID.localeCompare(b.Service_Type1.ID)
+    );
+    // console.log(sortedBookings);
+
+    bookingTableDisplay(sortedBookings);
 })
 
 // Booking card Click Action

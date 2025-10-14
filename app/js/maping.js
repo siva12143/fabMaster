@@ -51,7 +51,7 @@ const mapping = async (cust, book, bookline, jobs) => {
                 a.Service_Type1.ID.localeCompare(b.Service_Type1.ID)
             );
             console.log(sortedBookings);
-            if(i == 0){
+            if (i == 0) {
                 bookingTableDisplay(sortedBookings);
             }
             i++;
@@ -61,7 +61,7 @@ const mapping = async (cust, book, bookline, jobs) => {
 }
 const bookingTableDisplay = async (val, active) => {
     const addService = [];
-
+    bookingTable.innerHTML = "";
     await val.forEach(async e => {
         // console.log(e);
 
@@ -133,16 +133,17 @@ const bookingTableDisplay = async (val, active) => {
 
     })
 }
+const backToBooking = () => {
+    document.querySelector("#BookingSection").style.display = "block";
+    document.querySelector(".jobinner").style.display = "none";
+}
 const hideShow = (e) => {
     document.querySelector("#BookingSection").style.display = "none";
     document.querySelector(".jobinner").style.display = "block";
     jobPage(e.target.closest("tr").id);
 }
-const backToBooking = () => {
-    document.querySelector("#BookingSection").style.display = "block";
-    document.querySelector(".jobinner").style.display = "none";
-}
-const jobPage = (val) => {
+
+const jobPage = async (val) => {
     // console.log(val);
     let getProperty = [];
     const config = {
@@ -152,9 +153,23 @@ const jobPage = (val) => {
         page: 1,
         pageSize: 200,
     };
-    ZOHO.CREATOR.API.getAllRecords(config).then(response => {
-        getProperty = response.data;
+    await ZOHO.CREATOR.API.getAllRecords(config).then(async response => {
+        getProperty = await response.data;
         displayJobCard(response.data[0], "active")
+    })
+    console.log(getProperty[0].Booking_Date);
+    const config2 = {
+        appName: "fab-master-erp1",
+        reportName: "All_Bookings",
+        criteria: `(Booking_Date == "${getProperty[0].Booking_Date}")`,
+        page: 1,
+        pageSize: 200,
+    };
+    ZOHO.CREATOR.API.getAllRecords(config2).then(response => {
+        console.log(response.data);
+        response.data.forEach(e => {
+            displayJobCard(e,"");
+        })
     })
 
 }
@@ -183,8 +198,6 @@ const displayJobCard = async (Map, active) => {
         <div><strong>Job Requests</strong></div>
         <div class="job-requests" id="job${Map.Booking_ID}"></div>
         `;
-
-
     let getJobs = [];
     const config = {
         appName: "fab-master-erp1",
