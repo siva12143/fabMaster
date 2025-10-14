@@ -19,10 +19,10 @@ const mapping = async (cust, book, bookline, jobs) => {
         if (filterBooking.length > 0) {
             const bookingCard = document.createElement("div");
             bookingCard.setAttribute("id", e.ID);
-            let activeBook = false; 
+            let activeBook = false;
             if (i == 0) {
                 bookingCard.setAttribute("class", "booking-card active");
-                activeBook = true ;
+                activeBook = true;
             }
             else {
                 bookingCard.setAttribute("class", "booking-card");
@@ -47,11 +47,14 @@ const mapping = async (cust, book, bookline, jobs) => {
                 </ul>
             `;
             bookingCardContainer.appendChild(bookingCard);
-            i++;
             const sortedBookings = filterBookingService.sort((a, b) =>
                 a.Service_Type1.ID.localeCompare(b.Service_Type1.ID)
             );
-            bookingTableDisplay(sortedBookings);
+            console.log(sortedBookings);
+            if(i == 0){
+                bookingTableDisplay(sortedBookings);
+            }
+            i++;
         }
     });
 

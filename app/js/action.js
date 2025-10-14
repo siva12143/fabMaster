@@ -181,3 +181,34 @@ const cardAction = (val) => {
 const approvalPopup = () => {
     alert("This Booking Not Approved, Please Approve first.");
 }
+
+
+// Booking card Click Action 
+document.getElementById("CustBookingList").addEventListener("click", async(e) => {
+    console.log(e);
+    
+    const getCustomerId = e.target.closest(".booking-card").id;
+    const cards = document.querySelectorAll('.booking-card');
+    cards.forEach(card => {
+        cards.forEach(e => e.classList.remove("active"));
+        card.classList.add("active");
+    })
+    let filterBookingService = [];
+    const config = {
+        appName: "fab-master-erp1",
+        reportName: "All_Bookings",
+        criteria: `(Customer_Name == ${getCustomerId})`,
+        page: 1,
+        pageSize: 200,
+    };
+    await ZOHO.CREATOR.API.getAllRecords(config).then(async response => {
+        filterBookingService = await response.data;
+        console.log(response.data);
+    })
+    // const sortedBookings = filterBookingService.sort((a, b) =>
+    //     a.Service_Type1.ID.localeCompare(b.Service_Type1.ID)
+    // );
+    // bookingTableDisplay(sortedBookings);
+})
+
+// Booking card Click Action
