@@ -19,8 +19,10 @@ const mapping = async (cust, book, bookline, jobs) => {
         if (filterBooking.length > 0) {
             const bookingCard = document.createElement("div");
             bookingCard.setAttribute("id", e.ID);
+            let activeBook = false; 
             if (i == 0) {
                 bookingCard.setAttribute("class", "booking-card active");
+                activeBook = true ;
             }
             else {
                 bookingCard.setAttribute("class", "booking-card");
@@ -54,7 +56,7 @@ const mapping = async (cust, book, bookline, jobs) => {
     });
 
 }
-const bookingTableDisplay = async (val) => {
+const bookingTableDisplay = async (val, active) => {
     const addService = [];
 
     await val.forEach(async e => {
@@ -111,10 +113,19 @@ const bookingTableDisplay = async (val) => {
             <td style="text-align:center;">
                 <div class="Row-btn-item">Approved</div>
             </td>
-            <td style="text-align:center;">
-                <div class="Row-btn-item" onclick="hideShow(event)">View</div>
-            </td>
         `;
+        if (getBooking[0].Status == "Approved") {
+            row.innerHTML += `
+            <td style="text-align:center;">
+            <div class="Row-btn-item" onclick="hideShow(event)">View</div>
+            </td>`
+        }
+        if (getBooking[0].Status == "Draft") {
+            row.innerHTML += `
+            <td style="text-align:center;">
+            <div class="Row-btn-item" onclick="approvalPopup()">View</div>
+            </td>`
+        }
         bookingTable.appendChild(row);
 
     })
@@ -215,15 +226,15 @@ const displayJobCard = async (Map, active) => {
             crew = getCrew[0].Crew1.display_value;
             driver = getCrew[0].Driver1.display_value;
         }
+        console.log(e);
+
         jobs.innerHTML = `
-            <div class="w-full flex flex-wrap">
+            <div class="w-full flex flex-wrap cursor-pointer"  id="${e.ID}" onclick="cardAction(event)">
                 <p class="w-3/5 font-semibold text-sm">${e.Start_Time.split(" ")[1]} - ${e.End_Time.split(" ")[1]}</p> 
                 <p class="w-1/5">${crew}</p> 
                 <p class="w-1/5">${driver}</p> 
-                <p class="w-3/5 text-sm">${e.Job_Name.display_value}</p>
-                <p class="w-1/5>
-                    <i class="fa fa-flag" aria-hidden="true"></i>
-                </p>                
+                <p class="w-3/5 text-sm">${e.Job_Name.display_value}</p>                
+                <p class="w-2/5 text-sm">${e.Job_ID}</p>                
             </div>   
         `;
         getVal.appendChild(jobs)
@@ -243,7 +254,7 @@ const updateJobFullDetails = async (jobId) => {
     const Address = document.getElementById("Address");
     const Zone = document.getElementById("Zone");
     const AccessCode = document.getElementById("Access_Code");
-    const ScheduledDate = document.getElementById("ScheduledDate");
+    const ScheduledDate = document.getElementById("Scheduled_Date");
     const StartTime = document.getElementById("Start_Time");
     const EndTime = document.getElementById("End_Time");
     const Crew = document.getElementById("Crew");
@@ -251,6 +262,26 @@ const updateJobFullDetails = async (jobId) => {
     const PickupLocation = document.getElementById("Pickup_Location");
     const DropoffLocation = document.getElementById("Dropoff_Location");
     const SpecialInstruction = document.getElementById("Special_Instruction");
+
+    ReqId.value = null;
+    Customer.value = null;
+    Service.value = null;
+    PropertyName.value = null;
+    PropertyNumber.value = null;
+    PropertyType.value = null;
+    PropertyUnit.value = null;
+    Address.value = null;
+    Zone.value = null;
+    AccessCode.value = null;
+    ScheduledDate.value = null;
+    StartTime.value = null;
+    EndTime.value = null;
+    Crew.value = null;
+    Driver.value = null;
+    PickupLocation.value = null;
+    DropoffLocation.value = null;
+    SpecialInstruction.value = null;
+
     let Checkgrew = false;
     try {
         const cre = {
@@ -263,6 +294,8 @@ const updateJobFullDetails = async (jobId) => {
         await ZOHO.CREATOR.API.getAllRecords(cre).then(async response => {
             getCrew = await response.data;
             Checkgrew = true;
+            console.log(getCrew);
+
         })
     } catch (error) {
         console.log(error);
@@ -287,12 +320,15 @@ const updateJobFullDetails = async (jobId) => {
             Driver.innerHTML += `<option vlaue='${e.ID}'>${e.Name}</option>`;
         });
     }
-    else{
-        
-        Crew.innerHTML = `<option value="${getCrew[0].Crew.ID}">${getCrew[0].Crew.display_value}</option>`;
-        Driver.innerHTML = `<option value="${getCrew[0].Driver.ID}">${getCrew[0].Drive.display_value}</option>`;
+    else {
+        console.log(getCrew);
+        Crew.innerHTML = `<option value="${getCrew[0].Crew1.ID}">${getCrew[0].Crew1.display_value}</option>`;
+        Driver.innerHTML = `<option value="${getCrew[0].Driver1.ID}">${getCrew[0].Driver1.display_value}</option>`;
         PickupLocation.innerHTML = "<option>Select</option>";
         DropoffLocation.innerHTML = "<option>Select</option>";
+        const dateVal = formatDateForInput(getCrew[0].Scheduled_Start_Time1);
+        console.log(dateVal);
+        ScheduledDate.value = dateVal;
     }
 
 
@@ -334,11 +370,11 @@ const updateJobFullDetails = async (jobId) => {
     console.log(getProperty);
 
     ReqId.value = getJob[0].Job_ID;
-    ReqId.setAttribute("data",getJob[0].ID);
+    ReqId.setAttribute("data", getJob[0].ID);
     Service.value = getJob[0].Job_Name.display_value;
-    Service.setAttribute("data",getJob[0].Job_Name.ID);
+    Service.setAttribute("data", getJob[0].Job_Name.ID);
     Customer.value = getBooking[0].Customer.display_value;
-    Customer.setAttribute("data",getBooking[0].Customer.ID);
+    Customer.setAttribute("data", getBooking[0].Customer.ID);
     PropertyName.value = getProperty[0].Property_Name;
     PropertyNumber.value = getProperty[0].Property_Number;
     PropertyType.value = getProperty[0].Property_Type;

@@ -1,3 +1,19 @@
+// format date
+function formatDateForInput(dateString) {
+    const months = {
+        Jan: "01", Feb: "02", Mar: "03", Apr: "04",
+        May: "05", Jun: "06", Jul: "07", Aug: "08",
+        Sep: "09", Oct: "10", Nov: "11", Dec: "12"
+    };
+
+    const [day, mon, yearWithTime] = dateString.split("-");
+    const [year] = yearWithTime.split(" ");
+    return `${year}-${months[mon]}-${day.padStart(2, "0")}`;
+}
+// format date
+
+
+
 // Job Material table add row Start
 
 const tableBody = document.querySelector("#productTable tbody");
@@ -21,8 +37,9 @@ addRowBtn.addEventListener("click", async () => {
 
     const newRow = document.createElement("tr");
     newRow.className = "bg-white border-b border-gray-200 hover:bg-gray-50";
+    newRow.setAttribute("id", `rowId${materilCount}`);
     newRow.innerHTML = `
-        <td id="rowId${materilCount}">
+        <td id="">
             <select name="" id="rowSelect${materilCount}" class="p-[10px]">
            </select>
         </td>
@@ -42,43 +59,68 @@ addRowBtn.addEventListener("click", async () => {
     materilCount++;
 });
 
+const getStartTime = document.getElementById("Start_Time");
+getStartTime.addEventListener("change", () => {
+    console.log(getStartTime);
+    let [hour, minute] = getStartTime.value.split(":").map(Number);
+    const ampm = hour >= 12 ? "PM" : "AM";
+    hour = hour % 12 || 12; // Convert to 12-hour format
+
+    const formattedTime = `${hour.toString().padStart(2, "0")}:${minute
+        .toString()
+        .padStart(2, "0")} ${ampm}`;
+    console.log(formattedTime);
+})
+
 // Job Material table add row End
 
 const updateValue = () => {
-    const ReqId = document.getElementById("Job_Request_ID");
-    const Customer = document.getElementById("Customer");
-    const Service = document.getElementById("Service");
-    const PropertyName = document.getElementById("Property_Name");
-    const PropertyNumber = document.getElementById("Property_Number");
-    const PropertyType = document.getElementById("Property_Type");
-    const PropertyUnit = document.getElementById("Property_Unit");
-    const Address = document.getElementById("Address");
-    const Zone = document.getElementById("Zone");
-    const AccessCode = document.getElementById("Access_Code");
-    const ScheduledDate = document.getElementById("ScheduledDate");
-    const StartTime = document.getElementById("Start_Time");
-    const EndTime = document.getElementById("End_Time");
-    const Crew = document.getElementById("Crew");
-    const Driver = document.getElementById("Driver");
-    const PickupLocation = document.getElementById("Pickup_Location");
-    const DropoffLocation = document.getElementById("Dropoff_Location");
-    const SpecialInstruction = document.getElementById("Special_Instruction");
-    console.log(Crew);
-    
+    const updateReqId = document.getElementById("Job_Request_ID");
+    const updateCustomer = document.getElementById("Customer");
+    const updateService = document.getElementById("Service");
+    const updatePropertyName = document.getElementById("Property_Name");
+    const updatePropertyNumber = document.getElementById("Property_Number");
+    const updatePropertyType = document.getElementById("Property_Type");
+    const updatePropertyUnit = document.getElementById("Property_Unit");
+    const updateAddress = document.getElementById("Address");
+    const updateZone = document.getElementById("Zone");
+    const updateAccessCode = document.getElementById("Access_Code");
+    const updateScheduledDate = document.getElementById("Scheduled_Date");
+    const updateStartTime = document.getElementById("Start_Time");
+    const updateEndTime = document.getElementById("End_Time");
+    const updateCrew = document.getElementById("Crew");
+    const updateDriver = document.getElementById("Driver");
+    const updatePickupLocation = document.getElementById("Pickup_Location");
+    const updateDropoffLocation = document.getElementById("Dropoff_Location");
+    const updateSpecialInstruction = document.getElementById("Special_Instruction");
+    // Get the currently selected option element
+    const selectElement = document.getElementById("Crew");
+    const selectElement2 = document.getElementById("Driver");
+    const selectedOption = selectElement.options[selectElement.selectedIndex];
+    const selectedOption2 = selectElement2.options[selectElement.selectedIndex];
+
+    // Get the value from the misspelled "vlaue" attribute
+    const valueNumber = selectedOption.getAttribute("value");
+    const valueNumber2 = selectedOption2.getAttribute("value");
+    const setDate = updateScheduledDate.value.split("-");
+    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const formatStartTime = setDate[2] + "-" + months[setDate[1] - 1] + "-" + setDate[0] + " " + updateStartTime.value;
+    const formatEndTime = setDate[2] + "-" + months[setDate[1] - 1] + "-" + setDate[0] + " " + updateEndTime.value;
+
     const formData = {
-        data : {
-            Job_Id1 : ReqId.getAttribute('data'),
-            Service1: Service.getAttribute('data'),
-            Crew1: Crew.getAttribute("value"),
-            Scheduled_Start_Time1: "",
-            Special_Instructions: "",
-            Scheduled_End_Time:"",
-            Driver1:Driver.getAttribute("value"),
-            Customer:Customer.getAttribute('data')
+        data: {
+            Job_Id1: updateReqId.getAttribute('data'),
+            Service1: updateService.getAttribute('data'),
+            Crew1: valueNumber,
+            Driver1: valueNumber2,
+            Scheduled_Start_Time1: formatStartTime,
+            Special_Instructions: updateSpecialInstruction.value,
+            Scheduled_End_Time: formatEndTime,
+            Customer: updateCustomer.getAttribute('data')
         }
     }
     console.log(formData);
-    
+
 
     var config = {
         appName: "fab-master-erp1",
@@ -88,31 +130,54 @@ const updateValue = () => {
     ZOHO.CREATOR.API.addRecord(config).then(function (response) {
         if (response.code == 3000) {
             console.log("Record added successfully");
-        }else{
+        } else {
             console.log(response);
-            
         }
     });
+    const table = document.getElementById("productTable");
+    const rows = table.querySelectorAll("tbody tr");
 
+    const updateMaterial = {};
+    rows.forEach((row) => {
+        const item = row.children[0].children[0].value.trim(); // first column value
+        const qty = parseFloat(row.children[1].children[0].value) || 0; // second column value
 
-    // const newFormData = {
-    //     data : {
-    //         Job : 
-    //         Materials : 
-    //         Qty : 
-    //     }
-    // }
-    // var config = {
-    //     appName: "fab-master-erp1",
-    //     formName: "Materials_Required_Job",
-    //     data: formData
-    // }
-    // ZOHO.CREATOR.API.addRecord(config).then(function (response) {
-    //     if (response.code == 3000) {
-    //         console.log("Record added successfully");
-    //     }else{
-    //         console.log(response);
-            
-    //     }
-    // });
+        if (!updateMaterial[item]) {
+            updateMaterial[item] = { item, qty: 0 };
+        }
+        updateMaterial[item].qty += qty;
+    });
+    const materialList = Object.values(updateMaterial);
+    materialList.forEach(e => {
+        console.log(e);
+        const newFormData = {
+            data: {
+                Job: updateReqId.getAttribute('data'),
+                Materials: e.item,
+                Qty: e.qty
+            }
+        }
+        var config = {
+            appName: "fab-master-erp1",
+            formName: "Materials_Required_Job",
+            data: newFormData
+        }
+        ZOHO.CREATOR.API.addRecord(config).then(function (response) {
+            if (response.code == 3000) {
+                console.log("Record added successfully");
+            } else {
+                console.log(response);
+            }
+        });
+    })
+
+    updateJobFullDetails(updateReqId.getAttribute('data'));
+
+}
+const cardAction = (val) => {
+    updateJobFullDetails(val.target.closest("div").id)
+}
+
+const approvalPopup = () => {
+    alert("This Booking Not Approved, Please Approve first.");
 }
